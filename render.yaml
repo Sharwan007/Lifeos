@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: lifeos-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: APP_USER
+        value: admin
+      - key: APP_PASSWORD
+        sync: false
+      - key: ALLOWED_ORIGIN
+        sync: false
+      # Option 1: Neon Postgres Database
+      - key: DATABASE_URL
+        sync: false
+      # Option 2: Supabase Database
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_TABLE
+        value: lifeos_state

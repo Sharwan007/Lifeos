@@ -1,0 +1,36 @@
+name: lifeos
+services:
+  - name: lifeos-api
+    type: web
+    ports:
+      - 8080
+    routes:
+      - path: "/"
+    build:
+      type: docker
+      dockerfile: ./Dockerfile
+    health_checks:
+      - port: 8080
+        path: /healthz
+        interval: 30
+        timeout: 5
+        grace_period: 15
+    env:
+      - key: PORT
+        value: "8080"
+      - key: APP_USER
+        value: admin
+      - key: APP_PASSWORD
+        scopes: ["secret"]
+      - key: ALLOWED_ORIGIN
+        scopes: ["secret"]
+      # Option 1: Neon Postgres
+      - key: DATABASE_URL
+        scopes: ["secret"]
+      # Option 2: Supabase
+      - key: SUPABASE_URL
+        scopes: ["secret"]
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        scopes: ["secret"]
+      - key: SUPABASE_TABLE
+        value: lifeos_state
